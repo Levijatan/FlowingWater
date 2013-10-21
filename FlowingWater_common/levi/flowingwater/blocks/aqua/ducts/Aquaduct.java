@@ -1,7 +1,7 @@
 package levi.flowingwater.blocks.aqua.ducts;
 
 import levi.flowingwater.blocks.aqua.AquaBlock;
-import levi.flowingwater.tileentities.aqua.duct.TileEntityAquaduct;
+import levi.flowingwater.tileentities.aqua.duct.TileEntityAquaDuct;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,7 +23,7 @@ public class Aquaduct extends AquaBlock
 
   public TileEntity createNewTileEntity(World world)
   {
-    return new TileEntityAquaduct();
+    return new TileEntityAquaDuct();
   }
 
   public boolean onBlockActivated(World world, int i, int j, int k, EntityPlayer entityplayer, int par6, float par7, float par8, float par9)

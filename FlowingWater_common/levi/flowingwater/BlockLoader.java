@@ -3,7 +3,7 @@ package levi.flowingwater;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import levi.flowingwater.blocks.aqua.ducts.Aquaduct;
-import levi.flowingwater.tileentities.aqua.duct.TileEntityAquaduct;
+import levi.flowingwater.tileentities.aqua.duct.TileEntityAquaDuct;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 
@@ -24,6 +24,6 @@ public class BlockLoader
 
   public static void registerTileEntities()
   {
-    GameRegistry.registerTileEntity(TileEntityAquaduct.class, "AquaductTileEntity");
+    GameRegistry.registerTileEntity(TileEntityAquaDuct.class, "AquaductTileEntity");
   }
 }

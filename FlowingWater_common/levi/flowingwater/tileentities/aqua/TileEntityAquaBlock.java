@@ -3,17 +3,32 @@ package levi.flowingwater.tileentities.aqua;
 import java.util.ArrayList;
 
 import levi.flowingwater.util.AquaNetwork;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityAquaBlock extends TileEntity {
 
-	private AquaNetwork net;
+	protected AquaNetwork net;
 
 	public void createNetwork() {
 		if (net == null) {
 			net = new AquaNetwork();
 		}
 	}
+	
+	@Override
+    public void readFromNBT(NBTTagCompound tag)
+    {
+        super.readFromNBT(tag);
+        net.writeToNBT(tag);
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound tag)
+    {
+        super.writeToNBT(tag);
+        net.readFromNBT(tag);
+    }
 
 	public ArrayList<TileEntity> checkIfNeighborsAquaBlock() {
 		ArrayList<TileEntity> neighbors = new ArrayList<TileEntity>();
