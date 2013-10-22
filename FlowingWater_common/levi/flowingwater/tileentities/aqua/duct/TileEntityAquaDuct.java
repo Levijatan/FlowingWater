@@ -3,14 +3,10 @@ package levi.flowingwater.tileentities.aqua.duct;
 import java.util.ArrayList;
 
 import levi.flowingwater.tileentities.aqua.TileEntityAquaBlock;
-import levi.flowingwater.util.AquaNetwork;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
@@ -23,7 +19,7 @@ public class TileEntityAquaDuct extends TileEntityAquaBlock implements
 
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
 		// TODO Make Directional.
-		return net.fill(from, resource, doFill);
+		return net.fill(resource, doFill);
 	}
 
 	@Override
@@ -33,13 +29,13 @@ public class TileEntityAquaDuct extends TileEntityAquaBlock implements
 		if (resource == null || !resource.isFluidEqual(net.getFluid())) {
 			return null;
 		}
-		return net.drain(from, resource, doDrain);
+		return net.drain(resource.amount, doDrain);
 	}
 
 	@Override
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
 		// TODO Make Directional.
-		return net.drain(from, maxDrain, doDrain);
+		return net.drain(maxDrain, doDrain);
 	}
 
 	@Override

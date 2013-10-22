@@ -2,28 +2,26 @@ package levi.flowingwater.util;
 
 import java.util.HashMap;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
-import net.minecraftforge.fluids.FluidTankInfo;
 import levi.flowingwater.tileentities.aqua.TileEntityAquaBlock;
 
-public class AquaNetwork {
-
+public class AquaNetwork extends FluidTank {
+	
 	private HashMap<String, TileEntityAquaBlock> aquaNet = new HashMap<String, TileEntityAquaBlock>();
 	private HashMap<String, String> inOut = new HashMap<String, String>();
 
-	protected FluidTank tank = new FluidTank(
-			FluidContainerRegistry.BUCKET_VOLUME);
-
-	public void readFromNBT(NBTTagCompound tag) {
-		tank.writeToNBT(tag);
+	public AquaNetwork(int capacity) {
+		super(null, capacity);
 	}
 
-	public void writeToNBT(NBTTagCompound tag) {
-		tank.readFromNBT(tag);
+	public AquaNetwork(FluidStack stack, int capacity) {
+		super(stack, capacity);
+	}
+
+	public AquaNetwork(Fluid fluid, int amount, int capacity) {
+		super(fluid, amount, capacity);
 	}
 
 	public void registerAquaBlock(TileEntityAquaBlock AquaEntity) {
@@ -48,34 +46,11 @@ public class AquaNetwork {
 		inOut.remove(key);
 	}
 
-	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		// TODO Make Directional.
-		return tank.fill(resource, doFill);
-	}
-
-	public FluidStack getFluid() {
-		return tank.getFluid();
-	}
-
-	public FluidStack drain(ForgeDirection from, FluidStack resource,
-			boolean doDrain) {
-		return tank.drain(resource.amount, doDrain);
-	}
-	
-	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-		// TODO Make Directional.
-		return tank.drain(maxDrain, doDrain);
-	}
-	
-	public FluidTankInfo getInfo(){
-		return tank.getInfo();
-	}
-	
-	public HashMap<String, TileEntityAquaBlock> getAquaNet(){
+	public HashMap<String, TileEntityAquaBlock> getAquaNet() {
 		return aquaNet;
 	}
-	
-	public HashMap<String, String> getInOut(){
+
+	public HashMap<String, String> getInOut() {
 		return inOut;
 	}
 }

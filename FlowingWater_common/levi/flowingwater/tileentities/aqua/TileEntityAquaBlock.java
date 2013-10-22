@@ -7,12 +7,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityAquaBlock extends TileEntity {
-
+	
 	protected AquaNetwork net;
 
+	public TileEntityAquaBlock(){
+		createNetwork();
+	}
+	
 	public void createNetwork() {
 		if (net == null) {
-			net = new AquaNetwork();
+			net = new AquaNetwork(1);
 		}
 	}
 	
