@@ -1,84 +1,79 @@
 package levi.flowingwater.tileentities.aqua;
 
-import java.util.ArrayList;
+import java.util.Stack;
 
 import levi.flowingwater.util.AquaNetwork;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityAquaBlock extends TileEntity {
-	
+
 	protected AquaNetwork net;
 
-	public TileEntityAquaBlock(){
+	public TileEntityAquaBlock() {
 		createNetwork();
 	}
-	
+
 	public void createNetwork() {
 		if (net == null) {
-			net = new AquaNetwork(1);
+			net = new AquaNetwork(16);
 		}
 	}
-	
+
 	@Override
-    public void readFromNBT(NBTTagCompound tag)
-    {
-        super.readFromNBT(tag);
-        net.writeToNBT(tag);
-    }
+	public void readFromNBT(NBTTagCompound tag) {
+		super.readFromNBT(tag);
+		net.writeToNBT(tag);
+	}
 
-    @Override
-    public void writeToNBT(NBTTagCompound tag)
-    {
-        super.writeToNBT(tag);
-        net.readFromNBT(tag);
-    }
+	@Override
+	public void writeToNBT(NBTTagCompound tag) {
+		super.writeToNBT(tag);
+		net.readFromNBT(tag);
+	}
 
-	public ArrayList<TileEntity> checkIfNeighborsAquaBlock() {
-		ArrayList<TileEntity> neighbors = new ArrayList<TileEntity>();
-		if (this.worldObj.getBlockTileEntity(xCoord - 1, yCoord, zCoord) != null) {
-			if (this.worldObj.getBlockTileEntity(xCoord - 1, yCoord, zCoord)
-					.equals(this)) {
-				neighbors.add(this.worldObj.getBlockTileEntity(xCoord - 1, yCoord,
-						zCoord));
+	public Stack<AquaNetwork> checkIfSutibleAquaNets() {
+		Stack<TileEntityAquaBlock> ATiles = new Stack<TileEntityAquaBlock>();
+		ATiles = checkAndPush(ATiles, xCoord - 1, yCoord, zCoord);
+		ATiles = checkAndPush(ATiles, xCoord - 1, yCoord - 1, zCoord);
+		ATiles = checkAndPush(ATiles, xCoord - 1, yCoord + 1, zCoord);
+		ATiles = checkAndPush(ATiles, xCoord + 1, yCoord, zCoord);
+		ATiles = checkAndPush(ATiles, xCoord + 1, yCoord - 1, zCoord);
+		ATiles = checkAndPush(ATiles, xCoord + 1, yCoord + 1, zCoord);
+		ATiles = checkAndPush(ATiles, xCoord, yCoord - 1, zCoord);
+		ATiles = checkAndPush(ATiles, xCoord, yCoord + 1, zCoord);
+		ATiles = checkAndPush(ATiles, xCoord, yCoord, zCoord - 1);
+		ATiles = checkAndPush(ATiles, xCoord, yCoord - 1, zCoord - 1);
+		ATiles = checkAndPush(ATiles, xCoord, yCoord + 1, zCoord - 1);
+		ATiles = checkAndPush(ATiles, xCoord, yCoord, zCoord + 1);
+		ATiles = checkAndPush(ATiles, xCoord, yCoord - 1, zCoord + 1);
+		ATiles = checkAndPush(ATiles, xCoord, yCoord + 1, zCoord + 1);
+
+		Stack<AquaNetwork> netStack = pickLegalNets(ATiles);
+
+		return netStack;
+	}
+
+	public Stack<AquaNetwork> pickLegalNets(Stack<TileEntityAquaBlock> ATiles) {
+		Stack<AquaNetwork> netStack = new Stack<AquaNetwork>();
+		while (!ATiles.isEmpty()) {
+			TileEntityAquaBlock tile = ATiles.pop();
+			if (tile.getNet() != getNet()) {
+				netStack.push(tile.getNet());
 			}
 		}
-		if (this.worldObj.getBlockTileEntity(xCoord + 1, yCoord, zCoord) != null) {
-			if (this.worldObj.getBlockTileEntity(xCoord + 1, yCoord, zCoord)
-	 				.equals(this)) {
-				neighbors.add(this.worldObj.getBlockTileEntity(xCoord + 1, yCoord,
-						zCoord));
+		return netStack;
+	}
+
+	public Stack<TileEntityAquaBlock> checkAndPush(
+			Stack<TileEntityAquaBlock> stack, int x, int y, int z) {
+		if (this.worldObj.getBlockTileEntity(x, y, z) != null) {
+			TileEntity tile = this.worldObj.getBlockTileEntity(x, y, z);
+			if (tile.equals(this)) {
+				stack.push((TileEntityAquaBlock) tile);
 			}
 		}
-		if (this.worldObj.getBlockTileEntity(xCoord, yCoord - 1, zCoord) != null) {
-			if (this.worldObj.getBlockTileEntity(xCoord, yCoord - 1, zCoord)
-					.equals(this)) {
-				neighbors.add(this.worldObj.getBlockTileEntity(xCoord, yCoord - 1,
-						zCoord));
-			}
-		}
-		if (this.worldObj.getBlockTileEntity(xCoord, yCoord + 1, zCoord) != null) {
-			if (this.worldObj.getBlockTileEntity(xCoord, yCoord + 1, zCoord)
-					.equals(this)) {
-				neighbors.add(this.worldObj.getBlockTileEntity(xCoord, yCoord + 1,
-						zCoord));
-			}
-		}
-		if (this.worldObj.getBlockTileEntity(xCoord, yCoord, zCoord - 1) != null) {
-			if (this.worldObj.getBlockTileEntity(xCoord, yCoord, zCoord - 1)
-					.equals(this)) {
-				neighbors.add(this.worldObj.getBlockTileEntity(xCoord, yCoord,
-						zCoord - 1));
-			}
-		}
-		if (this.worldObj.getBlockTileEntity(xCoord, yCoord, zCoord + 1) != null) {
-			if (this.worldObj.getBlockTileEntity(xCoord, yCoord, zCoord + 1)
-					.equals(this)) {
-				neighbors.add(this.worldObj.getBlockTileEntity(xCoord, yCoord,
-						zCoord + 1));
-			}
-		}
-		return neighbors;
+		return stack;
 	}
 
 	public AquaNetwork getNet() {
