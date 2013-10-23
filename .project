@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>FlowingWater</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>FlowingWater_common</name>
+			<type>2</type>
+			<locationURI>PROJECT_LOC/FlowingWater_common</locationURI>
+		</link>
+		<link>
+			<name>FlowingWater_resources</name>
+			<type>2</type>
+			<locationURI>PROJECT_LOC/FlowingWater_resources</locationURI>
+		</link>
+	</linkedResources>
+</projectDescription>
